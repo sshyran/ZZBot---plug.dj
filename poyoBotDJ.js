@@ -48,6 +48,12 @@ ZZBot.commands.pingMe = {
 	}
 }
 
+ZZBot.commands.test = {
+	launch: function(msg) {
+		ZZBot.aux.sendChat("@" + msg.un + "ça ne marche pas, c\'est un test");
+	}
+}
+
 ZZBot.commands.cagibi = {
 	launch: function(msg) {
 		ZZBot.aux.sendChat("@" + msg.un);
