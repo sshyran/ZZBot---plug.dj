@@ -1,44 +1,70 @@
-var poyoCommandes = {};
+var ZZBot = ZZBot ? ZZBot : {}; // Si ZZBot existe déjà, on le recrée pas
 
-poyoCommandes.bloublou = function() {
-	API.sendChat("BLOUBLOU :fire:");
+//--- Section implémentation des commandes
+ZZBot.commands = {};
+
+// Squelette de commande :
+
+//ZZBot.commands.maCommande = {
+// // L'implémentation de la commande
+//	launch: function() {
+//		//implementation de la commande
+//	}
+// // Qui peut lancer la commande
+//	permissions: [API.ROLE.NONE, API.ROLE.DJ, API.ROLE.BOUNCER, API.ROLE.MANAGER, API.ROLE.COHOST, API.ROLE.HOST]
+// 
+//}
+
+
+
+ZZBot.commands.bloublou = {
+	launch: function() {
+		API.sendChat(":fire: BLOUBLOU :fire:");
+	}
+	permissions: [API.ROLE.NONE, API.ROLE.DJ, API.ROLE.BOUNCER, API.ROLE.MANAGER, API.ROLE.COHOST, API.ROLE.HOST]
 }
 
-poyoCommandes.commands = function() {
+ZZBot.commands.commands = function() {
 	var comlist = "";
-	for(var com in poyoCommandes) {
+	for(var com in ZZBot.commands) {
 		comlist += com + ", ";
 	}
 	API.sendChat(comlist);
 }
 
-poyoCommandes.help = poyoCommandes.commands;
+ZZBot.commands.help = ZZBot.commands.commands;
 
-poyoCommandes.pingMe = function(msg) {
+ZZBot.commands.pingMe = function(msg) {
 	API.sendChat("@" + msg.un);
 }
 
-poyoCommandes.meurs = function(msg) {
+ZZBot.commands.meurs = function(msg) {
 	API.sendChat("@" + msg.un);
 }
 
-poyoCommandes.cagibi = function(msg) {
+ZZBot.commands.cagibi = function(msg) {
 	API.sendChat("@" + msg.un);
 }
 
-poyoCommandes.pingMe = function(msg) {
+ZZBot.commands.pingMe = function(msg) {
 	API.sendChat("@" + msg.un);
 }
 
-poyoCommandes.meurs = function(msg) {
+ZZBot.commands.meurs = function(msg) {
 	var t = API.getUsers();
 	API.sendChat("@" + t[parseInt(t.length*Math.random())].username + " tu meuuuuuuuuuuuuuuuuuuuuuuuuuuurs !!!");
 
 }
 
+//--- Section fonctions auxiliaires
+
+
+
+//--- Section "events binding"
+
 API.on(API.CHAT, function(message) {
 	if( message.message.charAt( 0) == '!') { 
-		var com = poyoCommandes[message.message.substr(1)];
+		var com = ZZBot.commands[message.message.substr(1)];
 		if(!com) {
 			API.sendChat("PoyoBot: error 404 command not found :D")
 		} else {
@@ -46,5 +72,8 @@ API.on(API.CHAT, function(message) {
 		}
 	}
 });
+
+
+//--- Section "A lancer lors de la première exécution"
 
 API.sendChat("--- :chicken: PoyoBot v0.1b started ---");
