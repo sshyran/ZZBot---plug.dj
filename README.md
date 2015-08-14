@@ -20,3 +20,6 @@ L'idée c'est de connaître deux trois trucs en JS ça pourrait aider.
 Ensuite, le projet utilise l'API plug.dj ... plus d'infos ici : http://support.plug.dj/hc/en-us (tout en bas, il faut s'inscrire et se connecter sinon on voit pas la doc)
 
 Voilà ... plus d'infos à venir en fonction des technos qu'on va utiliser, et de vos questions :)
+
+
+** Plus d'infos dans le Wiki (conventions de code, idées à venir, projets de développement, ...) **
