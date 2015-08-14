@@ -22,4 +22,4 @@ Ensuite, le projet utilise l'API plug.dj ... plus d'infos ici : http://support.p
 Voilà ... plus d'infos à venir en fonction des technos qu'on va utiliser, et de vos questions :)
 
 
-** Plus d'infos dans le Wiki (conventions de code, idées à venir, projets de développement, ...) **
+**Plus d'infos dans le Wiki (conventions de code, idées à venir, projets de développement, ...)**
