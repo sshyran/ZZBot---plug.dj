@@ -114,11 +114,11 @@ ZZBot.data.getUserData = function( userId) {
 
 API.on(API.CHAT, function(message) {
 	if( message.message.charAt( 0) == '!') { 
-		var com = ZZBot.commands[message.message.substr(1)].launch;
+		var com = ZZBot.commands[message.message.substr(1)];
 		if(!com) {
 			ZZBot.aux.sendChat("PoyoBot: error 404 command not found :D")
 		} else {
-			com(message);
+			com.launch(message);
 		}
 	}
 });
@@ -126,4 +126,4 @@ API.on(API.CHAT, function(message) {
 
 //--- Section "A lancer lors de la première exécution"
 
-ZZBot.aux.sendChat("--- :chicken: PoyoBot v0.2 started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.2 started ---");
