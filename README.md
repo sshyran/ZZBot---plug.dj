@@ -1,6 +1,17 @@
 # ZZBot---plug.dj
 Bot for plug.dj
 
+## Section testeur/utilisateur
+
+Comment je lance ce bot ?
+
+Alors si la réponse n'est pas "par la fenetre", l'idée c'est de faire executer le du bot par le navigateur.
+Pour faire ca : (Explications pour google chrome ... marche avec les autres je pense)
+- F12
+- Echap
+- Dans le truc qui s'est ouvert en bas, ya un invite de commande. Faut coller le code de la lib dedans
+- Ca fait des chocapics :) ... à venir un méthode plus simple pour les versions stables :)
+
 ## Section développeur
 
 **Etape 1** : Telecharges https://desktop.github.com/ c'est le client du gestionnaire de version
