@@ -87,6 +87,8 @@ ZZBot.aux.sendChat = function( message) {
 //--- Section données internes (couche M d'un patern MVC)
 
 // Récupère la donnée "dataId" de l'utilisateur "userId"
+ZZBot.data = {};
+
 ZZBot.data.get = function( userId, dataId) {
 	return localStorage.getItem(userId).dataId;
 }
