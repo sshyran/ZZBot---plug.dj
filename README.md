@@ -21,7 +21,9 @@ Pour faire ca : (Explications pour google chrome ... marche avec les autres je p
 
 **Etape 3** : Normalement tu as le code, amuses toi vires des trucs ajoutes-en développes comme un malade quoi ! :) Puis quand tu as finis commit et synchronises, qu'on puisse tous voir les folies que t'as faites. Oublies pas de mettre une description correcte, qu'on comprenne le but du commit.
 
-**Etape 4** : Si le code est OK, je l'ajoute à la branche de développement principale. Sinon tu peux créer une branche parallèle avec du code sale, juste pour toi. :P
+**Etape 4** : Pour envoyer le code ya plusieurs solutions.
+- La pull request. C'est une sorte de "demande" pour intégrer le code sur la branche principale
+- La création d'une branche à part. Ca c'est possible que si je vous nome colaborateurs. Envoyez moi juste votre pseudo GitHub :)
 
 ## Section développeur pommé
 
