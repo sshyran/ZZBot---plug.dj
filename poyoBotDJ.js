@@ -48,6 +48,12 @@ ZZBot.commands.pingMe = {
 	}
 }
 
+ZZBot.commands.test = {
+	launch: function(msg) {
+		ZZBot.aux.sendChat("@" + msg.un + "ça ne marche pas, c\'est un test");
+	}
+}
+
 ZZBot.commands.cagibi = {
 	launch: function(msg) {
 		ZZBot.aux.sendChat("@" + msg.un);
@@ -81,6 +87,8 @@ ZZBot.aux.sendChat = function( message) {
 //--- Section données internes (couche M d'un patern MVC)
 
 // Récupère la donnée "dataId" de l'utilisateur "userId"
+ZZBot.data = {};
+
 ZZBot.data.get = function( userId, dataId) {
 	return localStorage.getItem(userId).dataId;
 }
