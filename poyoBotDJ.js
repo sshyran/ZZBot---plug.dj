@@ -7,8 +7,10 @@ ZZBot.commands = {};
 
 //ZZBot.commands.maCommande = {
 // // L'implémentation de la commande
-//	launch: function() {
+//	launch: function(msg, params) {
 //		//implementation de la commande
+//		//msg : Données bruts du message qui a lancé la commande
+//		//params: Paramètres de la commande
 //	}
 // // Qui peut lancer la commande. Si non définit ... tout le monde peut lancer
 //	permissions: [API.ROLE.NONE, API.ROLE.DJ, API.ROLE.BOUNCER, API.ROLE.MANAGER, API.ROLE.COHOST, API.ROLE.HOST]
