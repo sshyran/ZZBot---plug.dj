@@ -61,11 +61,11 @@ ZZBot.commands.cagibi = {
 }
 
 ZZBot.commands.meurs = {
-	launch: function(msg) {
+	launch: function(msg, params) {
 		var users = API.getUsers();
 		var victimeId = parseInt(users.length*Math.random());
 		var victime = users[victimeId].username;
-		ZZBot.aux.sendChat("@" + victime + " tu meuuuuuuuuuuuuuuuuuuuuurs !!!");
+		ZZBot.aux.sendChat("@" + victime + " tu meuuuurs " + (params[0] ? params[0] : "") + " !!!");
 	}
 }
 
