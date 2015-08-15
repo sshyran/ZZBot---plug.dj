@@ -15,7 +15,7 @@ Pour faire ca : (Explications pour google chrome ... marche avec les autres je p
 ## Section développeur
 
 **Etape 1** : Telecharges https://desktop.github.com/ c'est le client du gestionnaire de version
-... il est leger, et tourne pas en tâche de fond (rien à voir avec tortoise SVN)
+... il est leger, et tourne pas en tâche de fond (rien à voir avec tortoise SVN).
 Si tu connais déjà GIT, et que tu veux un controle plus complet sur ce que tu fais : https://www.sourcetreeapp.com/ c'est plus complet mais plus complexe que github desktop
 
 **Etape 2** : Crées un compte sur github, et clone le projet https://github.com/Poyoman39/ZZBot---plug.dj en utilisant le logiciel de l'étape 1.
