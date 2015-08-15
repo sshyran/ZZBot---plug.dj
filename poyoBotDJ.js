@@ -75,20 +75,13 @@ ZZBot.commands.monFric = {
 	}
 }
 
-//--- Section fonctions auxiliaires
-
-ZZBot.aux = {};
-
-// Envois un message dans le chat, en ajoutant un poulet, histoire qu'on sache que c'est un message de bot
-ZZBot.aux.sendChat = function( message) {
-	API.sendChat( ":chicken: : " + message);
-}
-
 //--- Section données internes (couche M d'un patern MVC)
+// Pour le moment utilise localStorage ( http://www.alsacreations.com/article/lire/1402-web-storage-localstorage-sessionstorage.html )
+// Mais plus tard utilisera un serveur pour stocker les données.
 
-// Récupère la donnée "dataId" de l'utilisateur "userId"
 ZZBot.data = {};
 
+// Récupère la donnée "dataId" de l'utilisateur "userId"
 ZZBot.data.get = function( userId, dataId) {
 	return localStorage.getItem(userId).dataId;
 }
@@ -106,24 +99,46 @@ ZZBot.data.set = function( userId, dataId, value) {
 	localStorage.setItem(userId, userData);
 }
 
+// Récupère toutes les infos possibles sur un utilisateur donné
 ZZBot.data.getUserData = function( userId) {
 	return localStorage.getItem(userId);
 }
 
+//--- Section fonctions auxiliaires
+
+ZZBot.aux = {};
+
+// Envois un message dans le chat, en ajoutant un poulet, histoire qu'on sache que c'est un message de bot
+ZZBot.aux.sendChat = function( message) {
+	API.sendChat( ":chicken: : " + message);
+}
+
+ZZBot.aux.parseCommand = function( fullCommand) {
+	fullCommand = fullCommand.substr(1); // on retire le !
+	fullCommand = fullCommand.split( " "); // on coupe a chaque espaces
+	return fullCommand;
+}
+
 //--- Section "events binding"
 
-API.on(API.CHAT, function(message) {
-	if( message.message.charAt( 0) == '!') { 
-		var com = ZZBot.commands[message.message.substr(1)];
-		if(!com) {
+API.on(API.CHAT, function( message) {
+	if( message.message.charAt( 0) == '!') {
+		// c'est trop découpé ici, mais c'est pour que vous pigiez mieux comment ca marche :)
+		var fullCommand = message.message;
+		var parsedCommand = ZZBot.aux.parseCommand( fullCommand);
+		var command = parsedCommand.shift();
+		var commandParameters = parsedCommand;
+		
+		var commandObject = ZZBot.commands[command];
+		
+		if(!commandObject) {
 			ZZBot.aux.sendChat("PoyoBot: error 404 command not found :D")
 		} else {
-			com.launch(message);
+			commandObject.launch(message, commandParameters);
 		}
 	}
 });
 
-
 //--- Section "A lancer lors de la première exécution"
 
-ZZBot.aux.sendChat("--- PoyoBot v0.2 started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.2a started ---");
