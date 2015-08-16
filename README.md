@@ -5,12 +5,21 @@ Bot for plug.dj
 
 Comment je lance ce bot ?
 
-Alors si la réponse n'est pas "par la fenetre", l'idée c'est de faire executer le du bot par le navigateur.
+### testeur
+
+Alors si la réponse n'est pas "par la fenetre", l'idée c'est de faire executer le code du bot par le navigateur.
 Pour faire ca : (Explications pour google chrome ... marche avec les autres je pense)
 - F12
 - Echap
 - Dans le truc qui s'est ouvert en bas, ya un invite de commande. Faut coller le code de la lib dedans
 - Ca fait des chocapics :) ... à venir un méthode plus simple pour les versions stables :)
+
+### utilisateur
+
+- CTRL+D => Modifier ou Clic-droit => créer un favoris
+- Dans le champ URL, copier coller le code suivant :
+  javascript: (function () { var jsCode = document.createElement('script');jsCode.setAttribute('src', 'http://www.poyostudio.fr/apps/zzBot.js'); document.body.appendChild(jsCode);}())
+- Si ca marche pas, c'est que mon site est en Rade :)
 
 ## Section développeur
 
