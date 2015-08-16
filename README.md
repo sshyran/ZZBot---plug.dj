@@ -19,7 +19,7 @@ Pour faire ca : (Explications pour google chrome ... marche avec les autres je p
 - CTRL+D => Modifier ou Clic-droit => créer un favoris
 - Dans le champ URL, copier coller le code suivant :
 
-> javascript: (function () { var jsCode = document.createElement('script');jsCode.setAttribute('src', 'https://raw.githubusercontent.com/Poyoman39/ZZBot---plug.dj/master/poyoBotDJ.js'); document.body.appendChild(jsCode);}())
+> javascript: (function () { var jsCode = document.createElement('script');jsCode.setAttribute('src', 'https://cdn.rawgit.com/Poyoman39/ZZBot---plug.dj/master/poyoBotDJ.js'); document.body.appendChild(jsCode);}())
 
 - Si ca marche pas, c'est que mon site est en Rade :)
 
