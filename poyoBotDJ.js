@@ -35,16 +35,21 @@ ZZBot.commands.bloublou = {
 }
 
 ZZBot.commands.commands = {
-	launch: function() {
+	launch: function(msg) {
+		var user = API.getUser(msg.uid);
+		
 		var comlist = [];
 		for(var com in ZZBot.commands) {
 			var comObj = ZZBot.commands[com];
-			if( comObj.cost !== undefined) {
-				comlist.push( com + " (" + comObj.cost + ":moneybag:)");
-			} else {
-				comlist.push( com);
+			if( !comObj.permissions || ZZBot.aux.inArray( user.role, comObj.permissions)) {
+				if( comObj.cost !== undefined) {
+					comlist.push( com + " (" + comObj.cost + ":moneybag:)");
+				} else {
+					comlist.push( com);
+				}
 			}
 		}
+		
 		ZZBot.aux.sendChat(comlist.join(", "));
 	}
 }
@@ -220,4 +225,4 @@ API.on(API.CHAT, function( message) {
 //--- Section "A lancer lors de la première exécution"
 
 document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
-ZZBot.aux.sendChat("--- PoyoBot v0.3a started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.3b started ---");
