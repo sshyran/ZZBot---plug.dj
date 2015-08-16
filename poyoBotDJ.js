@@ -1,4 +1,6 @@
-var ZZBot = ZZBot ? ZZBot : {}; // Si ZZBot existe déjà, on le recrée pas
+// on prépare le terrain
+var ZZBot = {};
+API._events = {}; // zigouille les traces d'anciens bots
 
 //--- Section implémentation des commandes
 ZZBot.commands = {};
@@ -14,7 +16,7 @@ ZZBot.commands = {};
 //	}
 // // Qui peut lancer la commande. Si non définit ... tout le monde peut lancer
 //	permissions: [API.ROLE.NONE, API.ROLE.DJ, API.ROLE.BOUNCER, API.ROLE.MANAGER, API.ROLE.COHOST, API.ROLE.HOST]
-// cout: 42 //(a venir ... le cout en piece ?)
+// cost: 42 //(a venir ... le cout en piece ?)
 // 
 //}
 
@@ -34,11 +36,16 @@ ZZBot.commands.bloublou = {
 
 ZZBot.commands.commands = {
 	launch: function() {
-		var comlist = "";
+		var comlist = [];
 		for(var com in ZZBot.commands) {
-			comlist += com + ", ";
+			var comObj = ZZBot.commands[com];
+			if( comObj.cost !== undefined) {
+				comlist.push( com + " (" + comObj.cost + ":moneybag:)");
+			} else {
+				comlist.push( com);
+			}
 		}
-		ZZBot.aux.sendChat(comlist);
+		ZZBot.aux.sendChat(comlist.join(", "));
 	}
 }
 
@@ -66,7 +73,8 @@ ZZBot.commands.test = {
 ZZBot.commands.cagibi = {
 	launch: function(msg) {
 		ZZBot.aux.sendChat("@" + msg.un);
-	}
+	},
+	cost: 50
 }
 
 ZZBot.commands.meurs = {
@@ -75,15 +83,13 @@ ZZBot.commands.meurs = {
 		var victimeId = parseInt(users.length*Math.random());
 		var victime = users[victimeId].username;
 		ZZBot.aux.sendChat("@" + victime + " tu meuuuurs " + (params[0] ? params[0] : "") + " !!!");
-	}
+	},
+	cost: 7
 }
 
 ZZBot.commands.monfric = {
 	launch: function(msg) {
 		var argent = ZZBot.data.get(msg.uid, "argent", 0);
-		if( argent == undefined) {
-			argent = 0;
-		}
 		
 		ZZBot.aux.sendChat("@" + msg.un + " " + argent + " :moneybag:");
 	}
@@ -193,14 +199,19 @@ API.on(API.CHAT, function( message) {
 		var command = parsedCommand.shift();
 		var commandParameters = parsedCommand;
 		var user = API.getUser(message.uid);
+		var argentUser = ZZBot.data.get(message.uid, "argent", 0);
 		
 		var commandObject = ZZBot.commands[command];
 		
 		if(!commandObject) { // Si la commande n'existe pas
-			ZZBot.aux.sendChat("PoyoBot: error 404 command not found :D")
+			ZZBot.aux.sendChat("Error 404 command not found :D")
 		} else if( commandObject.permissions && !ZZBot.aux.inArray( user.role, commandObject.permissions)){ // Si on n'est pas autorisé a l'executer
-			ZZBot.aux.sendChat("PoyoBot: error 403 command Unauthorized :D")
+			ZZBot.aux.sendChat("Error 403 command Unauthorized :D")
+		} else if( commandObject.cost && argentUser < commandObject.cost) { // Si on n'a pas un rond !
+			ZZBot.aux.sendChat("T'es sur la paille mon ch'tit gars :D ! Il te manque " + (commandObject.cost - argentUser) + ":moneybag:")
 		} else {
+			if( commandObject.cost)
+				ZZBot.data.set(message.uid, "argent", argentUser - commandObject.cost);
 			commandObject.launch(message, commandParameters);
 		}
 	}
@@ -208,4 +219,5 @@ API.on(API.CHAT, function( message) {
 
 //--- Section "A lancer lors de la première exécution"
 
-ZZBot.aux.sendChat("--- PoyoBot v0.3 started ---");
+document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
+ZZBot.aux.sendChat("--- PoyoBot v0.3a started ---");
