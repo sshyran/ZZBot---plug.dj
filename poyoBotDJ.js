@@ -52,7 +52,7 @@ ZZBot.commands.pingMe = {
 
 ZZBot.commands.test = {
 	launch: function(msg) {
-		ZZBot.aux.sendChat("@" + msg.un + "ça ne marche pas, c\'est un test");
+		ZZBot.aux.sendChat("@" + msg.un + " ça ne marche pas, c\'est un test");
 	}
 }
 
@@ -71,9 +71,26 @@ ZZBot.commands.meurs = {
 	}
 }
 
-ZZBot.commands.monFric = {
+ZZBot.commands.monfric = {
 	launch: function(msg) {
-		ZZBot.aux.sendChat("@" + msg.un + " 0 pieces ... c'est pas encore implémenté :D");
+		var argent = ZZBot.data.get(msg.uid, "argent", 0);
+		if( argent == undefined) {
+			argent = 0;
+		}
+		
+		ZZBot.aux.sendChat("@" + msg.un + " " + argent + " :moneybag:");
+	}
+}
+
+ZZBot.commands.kdo = {
+	launch: function(msg, param) {
+		var users = API.getUsers();
+		for( var i=0; i<users.length; ++i) {
+			var argent = ZZBot.data.get(users[i].id, "argent", 0);
+			ZZBot.data.set(users[i].id, "argent", argent + 100);
+		}
+		
+		ZZBot.aux.sendChat("Un cadeau pour @everyone ! +100 :moneybag:");
 	}
 }
 
@@ -84,26 +101,50 @@ ZZBot.commands.monFric = {
 ZZBot.data = {};
 
 // Récupère la donnée "dataId" de l'utilisateur "userId"
-ZZBot.data.get = function( userId, dataId) {
-	return localStorage.getItem(userId).dataId;
+ZZBot.data.get = function( userId, dataId, defaultValue/*=undefined*/) {
+	var data = ZZBot.data.getUserData(userId)[dataId];
+	if( data !== undefined) {
+		return data;
+	} else {
+		return defaultValue;
+	}
 }
 
 // Comme pour get ... mais en écriture
 ZZBot.data.set = function( userId, dataId, value) {
-	var userData = ZZBot.data.getUserData(userId);
+	var allData = ZZBot.data.getAllData();
 	
-	if(userData == undefined) {
-		userData = {}
+	if( allData[userId] === undefined) {
+		allData[userId] = {};
 	}
 	
-	userData[dataId] = value;
+	allData[userId][dataId] = value;
 	
-	localStorage.setItem(userId, userData);
+	ZZBot.data.setAllData(allData);
 }
 
 // Récupère toutes les infos possibles sur un utilisateur donné
 ZZBot.data.getUserData = function( userId) {
-	return localStorage.getItem(userId);
+	var allData = ZZBot.data.getAllData();
+	var userData = allData[userId];
+	if( userData !== undefined) {
+		return userData;
+	} else {
+		return {};
+	}
+}
+
+ZZBot.data.getAllData = function() {
+	var ZZBotData = localStorage.getItem("ZZBot");
+	if( ! ZZBotData) {
+		return {};
+	} else {
+		return JSON.parse(ZZBotData);
+	}
+}
+
+ZZBot.data.setAllData = function(ZZBotData) {
+	localStorage.setItem("ZZBot", JSON.stringify(ZZBotData));
 }
 
 //--- Section fonctions auxiliaires
