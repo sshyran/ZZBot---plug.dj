@@ -47,7 +47,14 @@ ZZBot.commands.help = ZZBot.commands.commands;
 ZZBot.commands.pingMe = {
 	launch: function(msg) {
 		ZZBot.aux.sendChat("@" + msg.un);
-	}
+	},
+	permissions: [
+		API.ROLE.NONE,
+		API.ROLE.DJ,
+		API.ROLE.BOUNCER,
+		API.ROLE.MANAGER,
+		API.ROLE.COHOST
+	]
 }
 
 ZZBot.commands.test = {
@@ -91,7 +98,11 @@ ZZBot.commands.kdo = {
 		}
 		
 		ZZBot.aux.sendChat("Un cadeau pour @everyone ! +100 :moneybag:");
-	}
+	},
+	permissions: [
+		API.ROLE.COHOST,
+		API.ROLE.HOST
+	]
 }
 
 //--- Section données internes (couche M d'un patern MVC)
@@ -156,10 +167,20 @@ ZZBot.aux.sendChat = function( message) {
 	API.sendChat( ":chicken: : " + message);
 }
 
+// Découpe la commande recue, a chaque espaces
 ZZBot.aux.parseCommand = function( fullCommand) {
 	fullCommand = fullCommand.substr(1); // on retire le !
 	fullCommand = fullCommand.split( " "); // on coupe a chaque espaces
 	return fullCommand;
+}
+
+// Repompée honteusement sur internet -- indique si un elément est dans un tableau
+ZZBot.aux.inArray = function(needle, haystack) {
+	var length = haystack.length;
+	for(var i = 0; i < length; ++i) {
+		if(haystack[i] == needle) return true;
+	}
+	return false;
 }
 
 //--- Section "events binding"
@@ -171,11 +192,14 @@ API.on(API.CHAT, function( message) {
 		var parsedCommand = ZZBot.aux.parseCommand( fullCommand);
 		var command = parsedCommand.shift();
 		var commandParameters = parsedCommand;
+		var user = API.getUser(message.uid);
 		
 		var commandObject = ZZBot.commands[command];
 		
-		if(!commandObject) {
+		if(!commandObject) { // Si la commande n'existe pas
 			ZZBot.aux.sendChat("PoyoBot: error 404 command not found :D")
+		} else if( commandObject.permissions && !ZZBot.aux.inArray( user.role, commandObject.permissions)){ // Si on n'est pas autorisé a l'executer
+			ZZBot.aux.sendChat("PoyoBot: error 403 command Unauthorized :D")
 		} else {
 			commandObject.launch(message, commandParameters);
 		}
@@ -184,4 +208,4 @@ API.on(API.CHAT, function( message) {
 
 //--- Section "A lancer lors de la première exécution"
 
-ZZBot.aux.sendChat("--- PoyoBot v0.2a started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.3 started ---");
