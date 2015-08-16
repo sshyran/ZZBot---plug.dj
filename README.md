@@ -18,7 +18,9 @@ Pour faire ca : (Explications pour google chrome ... marche avec les autres je p
 
 - CTRL+D => Modifier ou Clic-droit => créer un favoris
 - Dans le champ URL, copier coller le code suivant :
+
 > javascript: (function () { var jsCode = document.createElement('script');jsCode.setAttribute('src', 'http://www.poyostudio.fr/apps/zzBot.js'); document.body.appendChild(jsCode);}())
+
 - Si ca marche pas, c'est que mon site est en Rade :)
 
 ## Section développeur
