@@ -131,7 +131,7 @@ ZZBot.commands.kdo = {
 			ZZBot.data.set(users[i].id, "argent", argent + 20);
 		}
 		
-		ZZBot.aux.sendChat("Un cadeau pour @everyone ! +100 :moneybag:");
+		ZZBot.aux.sendChat("Un cadeau pour @everyone ! +20 :moneybag:");
 	},
 	permissions: [
 		API.ROLE.COHOST,
