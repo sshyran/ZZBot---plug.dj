@@ -66,20 +66,41 @@ ZZBot.commands.pingMe = {
 		API.ROLE.BOUNCER,
 		API.ROLE.MANAGER,
 		API.ROLE.COHOST
-	]
+	],
+	cost: 1
 }
 
 ZZBot.commands.test = {
 	launch: function(msg) {
 		ZZBot.aux.sendChat("@" + msg.un + " ça ne marche pas, c\'est un test");
-	}
+	},
+	cost: 1
 }
 
 ZZBot.commands.cagibi = {
-	launch: function(msg) {
-		ZZBot.aux.sendChat("@" + msg.un);
+	launch: function(msg, params) {
+		if( !params[0]) {
+			ZZBot.aux.sendChat("@" + msg.un + " il me faut une victime ! :)");
+			var argent = ZZBot.data.get(users[i].id, "argent", 0);
+			ZZBot.data.set(users[i].id, "argent", argent + ZZBot.commands.cagibi.cost); // on rembourse le cout
+		} else {
+			var victime = params[0];
+			victime = ZZBot.aux.getUserByName(victime);
+			if( victime !== null) {
+				ZZBot.aux.sendChat("@" + victime.username + " CAGIBIIIII !");
+			} else {
+				ZZBot.aux.sendChat("@" + msg.un + " dsl je trouve pas la victime ... ! :)");
+			}
+		}
 	},
-	cost: 50
+	cost: 100
+}
+
+ZZBot.commands.cripichonesque = {
+	launch: function(msg) {
+		ZZBot.aux.sendChat("@everyone YAAAAAAAAAAAAAH");
+	},
+	cost: 42
 }
 
 ZZBot.commands.meurs = {
@@ -89,15 +110,17 @@ ZZBot.commands.meurs = {
 		var victime = users[victimeId].username;
 		ZZBot.aux.sendChat("@" + victime + " tu meuuuurs " + (params ? params.join(" ") : "") + " !!!");
 	},
-	cost: 7
+	cost: 12
 }
 
 ZZBot.commands.monfric = {
 	launch: function(msg) {
 		var argent = ZZBot.data.get(msg.uid, "argent", 0);
+		var argent = Math.floor(argent * 10) / 10;
 		
 		ZZBot.aux.sendChat("@" + msg.un + " " + argent + " :moneybag:");
-	}
+	},
+	cost: 0.1
 }
 
 ZZBot.commands.kdo = {
@@ -105,7 +128,7 @@ ZZBot.commands.kdo = {
 		var users = API.getUsers();
 		for( var i=0; i<users.length; ++i) {
 			var argent = ZZBot.data.get(users[i].id, "argent", 0);
-			ZZBot.data.set(users[i].id, "argent", argent + 100);
+			ZZBot.data.set(users[i].id, "argent", argent + 20);
 		}
 		
 		ZZBot.aux.sendChat("Un cadeau pour @everyone ! +100 :moneybag:");
@@ -173,6 +196,9 @@ ZZBot.data.setAllData = function(ZZBotData) {
 
 ZZBot.aux = {};
 
+// buffer du Chat quand celui-ci est en mode lent
+ZZBot.aux.buffer = "";
+
 // Envois un message dans le chat, en ajoutant un poulet, histoire qu'on sache que c'est un message de bot
 ZZBot.aux.sendChat = function( message) {
 	API.sendChat( ":chicken: : " + message);
@@ -194,9 +220,23 @@ ZZBot.aux.inArray = function(needle, haystack) {
 	return false;
 }
 
+// Bon la le nom est transparent quand meme !
+ZZBot.aux.getUserByName = function( userName) {
+	var user = API.getUsers();
+	for( var user in users) {
+		if( user.username = userName)
+			return user;
+	}
+	return null;
+}
+
 //--- Section "events binding"
 
 API.on(API.CHAT, function( message) {
+	if( message.type == "system") {
+		console.log( message);
+	}
+	
 	if( message.message.charAt( 0) == '!') {
 		// c'est trop découpé ici, mais c'est pour que vous pigiez mieux comment ca marche :)
 		var fullCommand = message.message;
@@ -222,7 +262,19 @@ API.on(API.CHAT, function( message) {
 	}
 });
 
+API.on( API.ADVANCE, function (plaidSong) {
+	var user = plaidSong.lastPlay.dj;
+	
+	var argent = ZZBot.data.get(user.id, "argent", 0);
+	var salaire = 5 + 9.8*plaidSong.lastPlay.score.grabs + 2.4*plaidSong.lastPlay.score.positive - 0.5*plaidSong.lastPlay.score.negative;
+	
+	if( salaire > 0) {
+		ZZBot.data.set(user.id, "argent", argent + salaire);
+		ZZBot.aux.sendChat("Ton salaire de DJ " + user.username + " +" + salaire + " :moneybag:");
+	}
+});
+
 //--- Section "A lancer lors de la première exécution"
 
 document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
-ZZBot.aux.sendChat("--- PoyoBot v0.3c started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.4d started ---");
