@@ -225,4 +225,4 @@ API.on(API.CHAT, function( message) {
 //--- Section "A lancer lors de la première exécution"
 
 document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
-ZZBot.aux.sendChat("--- PoyoBot v0.3b started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.3c started ---");
