@@ -266,7 +266,7 @@ API.on( API.ADVANCE, function (plaidSong) {
 	var user = plaidSong.lastPlay.dj;
 	
 	var argent = ZZBot.data.get(user.id, "argent", 0);
-	var salaire = 5 + 9.8*plaidSong.lastPlay.score.grabs + 2.4*plaidSong.lastPlay.score.positive - 0.5*plaidSong.lastPlay.score.negative;
+	var salaire = 5 + 9.8*plaidSong.lastPlay.score.grabs + 2.4*plaidSong.lastPlay.score.positive - 1.2*plaidSong.lastPlay.score.negative;
 	
 	if( salaire > 0) {
 		ZZBot.data.set(user.id, "argent", argent + salaire);
