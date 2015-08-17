@@ -87,7 +87,7 @@ ZZBot.commands.meurs = {
 		var users = API.getUsers();
 		var victimeId = parseInt(users.length*Math.random());
 		var victime = users[victimeId].username;
-		ZZBot.aux.sendChat("@" + victime + " tu meuuuurs " + (params[0] ? params[0] : "") + " !!!");
+		ZZBot.aux.sendChat("@" + victime + " tu meuuuurs " + (params ? params.join(" ") : "") + " !!!");
 	},
 	cost: 7
 }
