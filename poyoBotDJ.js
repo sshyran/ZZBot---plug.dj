@@ -79,12 +79,12 @@ ZZBot.commands.test = {
 
 ZZBot.commands.cagibi = {
 	launch: function(msg, params) {
-		if( !params[0]) {
+		if( !params[0] || params[0].charAt(0) != '@') { // si on n'a pas précisé de victime
 			ZZBot.aux.sendChat("@" + msg.un + " il me faut une victime ! :)");
 			var argent = ZZBot.data.get(msg.uid, "argent", 0);
 			ZZBot.data.set(msg.uid, "argent", argent + ZZBot.commands.cagibi.cost); // on rembourse le cout
 		} else {
-			var victime = params[0];
+			var victime = params[0].substr(1);
 			victime = ZZBot.aux.getUserByName(victime);
 			if( victime !== null) {
 				ZZBot.aux.sendChat("@" + victime.username + " CAGIBIIIII !");
@@ -224,8 +224,8 @@ ZZBot.aux.inArray = function(needle, haystack) {
 ZZBot.aux.getUserByName = function( userName) {
 	var users = API.getUsers();
 	for( var user in users) {
-		if( user.username = userName)
-			return user;
+		if( users[user].username == userName)
+			return users[user];
 	}
 	return null;
 }
@@ -268,7 +268,7 @@ API.on( API.ADVANCE, function (plaidSong) {
 	var user = plaidSong.lastPlay.dj;
 	
 	var argent = ZZBot.data.get(user.id, "argent", 0);
-	var salaire = Math.random()*10 + 9.8*plaidSong.lastPlay.score.grabs + 3.4*plaidSong.lastPlay.score.positive - 2.2*plaidSong.lastPlay.score.negative;
+	var salaire = 4 + Math.random()*6 + 9.8*plaidSong.lastPlay.score.grabs + 3.4*plaidSong.lastPlay.score.positive - 2.2*plaidSong.lastPlay.score.negative;
 	
 	if( salaire > 0) {
 		ZZBot.data.set(user.id, "argent", argent + salaire);
@@ -281,4 +281,4 @@ API.on( API.ADVANCE, function (plaidSong) {
 //--- Section "A lancer lors de la première exécution"
 
 document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
-ZZBot.aux.sendChat("--- PoyoBot v0.4f started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.4g started ---");
