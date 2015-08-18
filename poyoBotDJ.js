@@ -116,7 +116,7 @@ ZZBot.commands.meurs = {
 ZZBot.commands.monfric = {
 	launch: function(msg) {
 		var argent = ZZBot.data.get(msg.uid, "argent", 0);
-		var argent = Math.floor(argent * 10) / 10;
+		argent = Math.floor(argent * 10) / 10;
 		
 		ZZBot.aux.sendChat("@" + msg.un + " " + argent + " :moneybag:");
 	},
@@ -253,7 +253,9 @@ API.on(API.CHAT, function( message) {
 		} else if( commandObject.permissions && !ZZBot.aux.inArray( user.role, commandObject.permissions)){ // Si on n'est pas autorisé a l'executer
 			ZZBot.aux.sendChat("Error 403 command Unauthorized :D")
 		} else if( commandObject.cost && argentUser < commandObject.cost) { // Si on n'a pas un rond !
-			ZZBot.aux.sendChat("T'es sur la paille mon ch'tit gars :D ! Il te manque " + (commandObject.cost - argentUser) + ":moneybag:")
+			var manque = commandObject.cost - argentUser;
+			manque = Math.floor(manque * 10) / 10;
+			ZZBot.aux.sendChat("T'es sur la paille mon ch'tit gars :D ! Il te manque " + manque + ":moneybag:")
 		} else {
 			if( commandObject.cost)
 				ZZBot.data.set(message.uid, "argent", argentUser - commandObject.cost);
@@ -270,6 +272,8 @@ API.on( API.ADVANCE, function (plaidSong) {
 	
 	if( salaire > 0) {
 		ZZBot.data.set(user.id, "argent", argent + salaire);
+		
+		salaire = Math.floor(salaire * 10) / 10;
 		ZZBot.aux.sendChat("Ton salaire de DJ " + user.username + " +" + salaire + " :moneybag:");
 	}
 });
