@@ -222,7 +222,7 @@ ZZBot.aux.inArray = function(needle, haystack) {
 
 // Bon la le nom est transparent quand meme !
 ZZBot.aux.getUserByName = function( userName) {
-	var user = API.getUsers();
+	var users = API.getUsers();
 	for( var user in users) {
 		if( user.username = userName)
 			return user;
@@ -281,4 +281,4 @@ API.on( API.ADVANCE, function (plaidSong) {
 //--- Section "A lancer lors de la première exécution"
 
 document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
-ZZBot.aux.sendChat("--- PoyoBot v0.4e started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.4f started ---");
