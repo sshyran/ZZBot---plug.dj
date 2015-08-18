@@ -81,8 +81,8 @@ ZZBot.commands.cagibi = {
 	launch: function(msg, params) {
 		if( !params[0]) {
 			ZZBot.aux.sendChat("@" + msg.un + " il me faut une victime ! :)");
-			var argent = ZZBot.data.get(users[i].id, "argent", 0);
-			ZZBot.data.set(users[i].id, "argent", argent + ZZBot.commands.cagibi.cost); // on rembourse le cout
+			var argent = ZZBot.data.get(msg.uid, "argent", 0);
+			ZZBot.data.set(msg.uid, "argent", argent + ZZBot.commands.cagibi.cost); // on rembourse le cout
 		} else {
 			var victime = params[0];
 			victime = ZZBot.aux.getUserByName(victime);
@@ -268,7 +268,7 @@ API.on( API.ADVANCE, function (plaidSong) {
 	var user = plaidSong.lastPlay.dj;
 	
 	var argent = ZZBot.data.get(user.id, "argent", 0);
-	var salaire = 5 + 9.8*plaidSong.lastPlay.score.grabs + 2.4*plaidSong.lastPlay.score.positive - 1.2*plaidSong.lastPlay.score.negative;
+	var salaire = Math.random()*10 + 9.8*plaidSong.lastPlay.score.grabs + 3.4*plaidSong.lastPlay.score.positive - 2.2*plaidSong.lastPlay.score.negative;
 	
 	if( salaire > 0) {
 		ZZBot.data.set(user.id, "argent", argent + salaire);
@@ -281,4 +281,4 @@ API.on( API.ADVANCE, function (plaidSong) {
 //--- Section "A lancer lors de la première exécution"
 
 document.getElementById("dj-booth").style.top = "8px"; // On fait monter les DJs sur les platines quand le bot se lance !
-ZZBot.aux.sendChat("--- PoyoBot v0.4d started ---");
+ZZBot.aux.sendChat("--- PoyoBot v0.4e started ---");
